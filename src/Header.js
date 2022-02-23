@@ -1,16 +1,19 @@
 import React from "react";
 
-function Header() {
+function Header({currentCategory, changeCategory}) {
 
+    function handleChange(event) {
+        changeCategory(event.target.value)
+    }
     return (
         <div className="App">
           <button>Add a joke</button>
           <label>Show jokes</label>
-          <select>
-            <option >All</option>
-            <option>Animals</option>
-            <option>Things</option>
-            <option>Food</option>
+          <select onChange={handleChange} value={currentCategory}>
+            <option value="All">All</option>
+            <option value="Animals">Animals</option>
+            <option value="Things">Things</option>
+            <option value="Food">Food</option>
           </select>
         </div>
       );
