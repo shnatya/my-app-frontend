@@ -2,7 +2,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react'
 import { baseURL } from './Globals'
 import Header from './Header';
-
+import Jokes from './Jokes';
 
 //after refreshing the page - current category is All
 //need to grab category_id.
@@ -43,7 +43,7 @@ function App() {
               currentCategory={currentCategory}
               arrayOfCategories={arrayOfCategories}
               changeCategory={changeCategory}/>
-      
+      <Jokes jokes={jokes}/>
     </div>
   );
 }
