@@ -3,24 +3,42 @@ import React, { useEffect, useState } from 'react'
 import { baseURL } from './Globals'
 import Header from './Header';
 
-
+//after refreshing the page - current category is All
+//need to grab category_id.
+//want to grab every time a user adds a new joke
 function App() {
-  const [allJokes, setAllJokes] = useState([])
-  const [allCategories, setAllCategories] = useState([])
-  const [currentCategory, setCurrentCategory] = useState("All")
+  const [allJokes, setJokes] = useState([])
+  const [arrayOfCategories, setArrayOfCategories] = useState([])
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState("All")
+  
 
   useEffect(() =>
-    fetch(baseURL + '/jokes')
+    fetch(baseURL + '/categories')
     .then(res => res.json())
-    .then(data => setAllJokes(data))
+    .then(data => setArrayOfCategories(data))
   , [])
 
-  function changeCategory(newCategory) {
-    setCurrentCategory(newCategory)
+  useEffect(() => {
+    if (currentCategoryIndex === 0) {
+      fetch(baseURL + '/jokes')
+      .then(res => res.json())
+      .then(data => console.log(data))
+    }
+    else {
+      fetch(baseURL + `/jokes/${currentCategoryIndex}`)
+      .then(res => res.json())
+      .then(data => setJokes(data))
+    }
+    
+  }
+  , [currentCategoryIndex])
+
+  function changeCategory(index) {
+    setCurrentCategoryIndex(index)
   }
   return (
     <div className="App">
-      <Header currentCategory={currentCategory} changeCategory={changeCategory}/>
+      <Header currentCategoryIndex={currentCategoryIndex} arrayOfCategories={arrayOfCategories} changeCategory={changeCategory}/>
     </div>
   );
 }
