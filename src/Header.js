@@ -5,7 +5,7 @@ import Jokes from './Jokes'
 function Header({currentCategory, arrayOfCategories, changeCategory}) {
 
     function handleChange(event) {
-        changeCategory(event.target.options.selectedIndex)
+        changeCategory(event.target.value, event.target.options.selectedIndex)
     }
 
     let categoryOptions = arrayOfCategories.map(c => {
