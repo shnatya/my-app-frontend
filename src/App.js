@@ -39,6 +39,10 @@ function App() {
     setCurrentCategory(value)
     setCurrentCategoryIndex(index)
   }
+
+  function addNewJoke(joke) {
+    
+  }
   return (
     <div className="App">
       <Header currentCategoryIndex={currentCategoryIndex} 
@@ -47,7 +51,7 @@ function App() {
               changeCategory={changeCategory}/>
       <Switch>
         <Route exact path='/addjoke'>
-            <NewJokeForm />
+            <NewJokeForm addNewJoke={addNewJoke}/>
         </Route>
         <Route exac path='/jokes'>
             <Jokes jokes={jokes}/>

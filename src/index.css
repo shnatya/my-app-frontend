@@ -11,3 +11,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.button-submit{
+  display: grid;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  height: 30px;
+  width: 100px;
+  position: absolute;
+  left: 46%;
+  text-align: center;
+  font-size: 17px;
+  color: brown;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.margin {
+  margin: 1em;
+}
+
+.settings{
+  display: block;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.input-joke{
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  height: 30px;
+  width: 300px;
+  text-align: center;
+  
+}

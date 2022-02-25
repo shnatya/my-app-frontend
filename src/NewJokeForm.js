@@ -1,14 +1,27 @@
 import React, { useState } from "react";
 
-function NewJokeForm() {
+function NewJokeForm({ addNewJoke }) {
     const [newJoke, setNewJoke] = useState({
         question: "",
         answer: "",
-        username: ""
+        user: {
+            username: ""},
+        category: {
+            category_name: ""}
     })
 
-    function handleSubmit() {
+    function handleSubmit(event) {
+        event.preventDefault()
+        addNewJoke(newJoke)
 
+        setNewJoke({
+            question: "",
+            answer: "",
+            user: {
+                username: ""},
+            category: {
+                category_name: ""}
+        })
     }
 
     function handleChange(event) {
@@ -19,12 +32,15 @@ function NewJokeForm() {
     
     return (
         <form onSubmit={handleSubmit}>
-            <input onChange={handleChange} name="question" placeholder="Type in your question"
+            <input className="margin input-joke" onChange={handleChange} name="question" placeholder="Type in your question"
             type="text" value={newJoke.question} autoComplete="off" />
-             <input onChange={handleChange} name="answer" placeholder="Type in your answer"
+             <input className="margin input-joke" onChange={handleChange} name="answer" placeholder="Type in your answer"
             type="text" value={newJoke.answer} autoComplete="off" />
-             <input onChange={handleChange} name="username" placeholder="Type in your username"
-            type="text" value={newJoke.username} />
+             <input className="margin input-joke" onChange={handleChange} name="username" placeholder="Type in your username"
+            type="text" value={newJoke.user.username} />
+            <input className="margin input-joke" onChange={handleChange} name="username" placeholder="Type in category(-ies)"
+            type="text" value={newJoke.category.category_name} />
+            <button className="margin button-submit" style={{background: "pink"}} type="submit">Submit</button>
         </form>
     )
 }
