@@ -41,7 +41,18 @@ function App() {
   }
 
   function addNewJoke(joke) {
-    
+    fetch(baseURL + "/jokes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(joke)
+    })
+    .then(res => res.json()
+    .then(newJoke => {
+      console.log(newJoke)
+      //setJokes([...jokes, newJoke])
+    }))
   }
   return (
     <div className="App">
