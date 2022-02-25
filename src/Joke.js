@@ -1,7 +1,9 @@
 import React from "react";
 
 function Joke({ joke, index }) {
-    console.log(index)
+    
+    console.log(index , joke)
+
     return (
         <div>
             <h2>{index+1}. {joke.question}</h2>

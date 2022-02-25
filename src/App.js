@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { baseURL } from './Globals'
 import Header from './Header';
 import Jokes from './Jokes';
+import NewJokeForm from './NewJokeForm';
+import { Route, Switch } from 'react-router-dom'
 
 //after refreshing the page - current category is All
 //need to grab category_id.
@@ -43,9 +45,19 @@ function App() {
               currentCategory={currentCategory}
               arrayOfCategories={arrayOfCategories}
               changeCategory={changeCategory}/>
-      <Jokes jokes={jokes}/>
+      <Switch>
+        <Route exact path='/addjoke'>
+            <NewJokeForm />
+        </Route>
+        <Route exac path='/jokes'>
+            <Jokes jokes={jokes}/>
+        </Route>
+      </Switch>
     </div>
   );
 }
 
 export default App;
+
+/*
+*/

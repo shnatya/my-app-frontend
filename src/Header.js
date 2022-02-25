@@ -1,7 +1,16 @@
 import React from "react";
-import Jokes from './Jokes'
+import { NavLink } from "react-router-dom"
 
-
+const linkStyles = {
+    display: "inline-block",
+    background: "pink",
+    color: "brown",
+    width: "150px",
+    padding: "12px",
+    marginBottom: "50px",
+    marginLeft: "15px",
+    borderRadius: "10px",
+}
 function Header({currentCategory, arrayOfCategories, changeCategory}) {
 
     function handleChange(event) {
@@ -16,14 +25,34 @@ function Header({currentCategory, arrayOfCategories, changeCategory}) {
     
     return (
         <div className="App">
-          <button>Add a joke</button>
-          <label>Show jokes</label>
-          <select onChange={handleChange} value={currentCategory}>
-          <option value="All">All</option>
-              {categoryOptions}
-          </select>
+            <NavLink
+                to="/addjoke"
+                exact
+                style={linkStyles}
+                activeStyle={{ background: "palevioletred"}}>
+                    Add a joke
+            </NavLink>
+            <label>Show jokes</label>
+            <NavLink
+                to="/jokes"
+                exact
+                style={linkStyles}
+                activeStyle={{ background: "palevioletred"}}>
+
+                <select onChange={handleChange} value={currentCategory}>
+                <option value="All">All</option>
+                    {categoryOptions}
+                </select>
+
+            </NavLink>
+            
         </div>
       );
 }
 
 export default Header;
+
+/* 
+
+*/
+
