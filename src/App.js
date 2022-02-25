@@ -12,6 +12,7 @@ function App() {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0)
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
+
 //do i need to add a new joke to my db jokes in react? i send request to get a category from server
   useEffect(() =>
     fetch(baseURL + '/categories')
@@ -39,7 +40,7 @@ function App() {
   }
 
   function addNewJoke(joke) {
-    fetch("http://localhost:9292/jokes", {
+    fetch(baseURL + "/jokes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +57,7 @@ function App() {
     })
     .then(res => res.json()
     .then(newJoke => {
-      
+      setAdded(true)
     }))
   }
 
@@ -66,8 +67,9 @@ function App() {
     })
     .then(res => res.json())
     .then(deletedJoke => {
-      console.log("was deleted" + deletedJoke)
-    })
+        const newArray = jokes.filter(joke => joke.id !== id)
+        setJokes(newArray)
+      })
   }
   return (
     <div className="App">
@@ -80,7 +82,7 @@ function App() {
             <NewJokeForm addNewJoke={addNewJoke}/>
         </Route>
         <Route exac path='/jokes'>
-            <Jokes jokes={jokes} deleteJoke={deleteJoke}/>
+            <Jokes jokes={jokes} deleteJoke={deleteJoke} isAdded={isAdded}/>
         </Route>
       </Switch>
     </div>

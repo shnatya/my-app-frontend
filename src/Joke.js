@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 
 function Joke({ joke, index, deleteJoke }) {
     
     function handleClick() {
-        console.log(joke.id)
         deleteJoke(joke.id)
     }
-
+//why button is deleted too?
     return (
-        <div>
-            <button onClick={handleClick}>x</button>
+        <div className="joke-div">
+            <button onClick={handleClick} >Delete</button>  
             <h2>{index+1}. {joke.question}</h2>
             <h2>Answer: {joke.answer}</h2>
             <h2>User: {joke.user.username}</h2>
