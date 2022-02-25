@@ -6,9 +6,6 @@ import Jokes from './Jokes';
 import NewJokeForm from './NewJokeForm';
 import { Route, Switch } from 'react-router-dom'
 
-//after refreshing the page - current category is All
-//need to grab category_id.
-//want to grab every time a user adds a new joke
 function App() {
   const [jokes, setJokes] = useState([])
   const [arrayOfCategories, setArrayOfCategories] = useState([])
@@ -41,17 +38,24 @@ function App() {
   }
 
   function addNewJoke(joke) {
-    fetch(baseURL + "/jokes", {
+    fetch("http://localhost:9292/jokes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(joke)
+      body: JSON.stringify({
+        user : {
+          username: joke.username},
+        joke: {
+          question: joke.question,
+          answer: joke.answer},
+      category: {
+          category_name: joke.category_name
+      }})
     })
     .then(res => res.json()
     .then(newJoke => {
-      console.log(newJoke)
-      //setJokes([...jokes, newJoke])
+      
     }))
   }
   return (

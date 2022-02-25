@@ -14,11 +14,8 @@ function NewJokeForm({ addNewJoke }) {
         setNewJoke({
             question: "",
             answer: "",
-            user: {
-                username: ""},
-            category: {
-                category_name: ""}
-        })
+            username: "",
+            category_name: ""})
     }
 
     function handleChange(event) {
