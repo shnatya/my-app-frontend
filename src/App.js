@@ -12,14 +12,19 @@ function App() {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0)
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
+  const [update, setUpdate] = useState(true)
 
-//do i need to add a new joke to my db jokes in react? i send request to get a category from server
-  useEffect(() =>
-    fetch(baseURL + '/categories')
-    .then(res => res.json())
-    .then(data => setArrayOfCategories(data))
-  , [])
-
+//do i need to add a new joke to my db jokes in react? i send request to get a new list of jokes from server
+  useEffect(() => {
+    if (update === true){
+      fetch(baseURL + '/categories')
+      .then(res => res.json())
+      .then(data => {
+        setArrayOfCategories(data)
+        setUpdate(false)
+        }  )}
+  }, [update])
+    
   useEffect(() => {
     if (currentCategoryIndex === 0) {
       fetch(baseURL + '/jokes')
@@ -33,11 +38,6 @@ function App() {
     }
   }
   , [currentCategoryIndex])
-
-  function changeCategory(value, index) {
-    setCurrentCategory(value)
-    setCurrentCategoryIndex(index)
-  }
 
   function addNewJoke(joke) {
     fetch(baseURL + "/jokes", {
@@ -69,8 +69,22 @@ function App() {
     .then(deletedJoke => {
         const newArray = jokes.filter(joke => joke.id !== id)
         setJokes(newArray)
+        setUpdate(true)
       })
   }
+
+  function changeCategory(value, index) {
+    setCurrentCategory(value)
+    setCurrentCategoryIndex(index)
+  }
+//Add Done! message when a new joke added to the db, and then clean this message off the screen in 1 sec
+  useEffect(() => {
+    const timerId = setTimeout(() => setAdded(false), 1000)
+    return function cleanUp() {
+      clearTimeout(timerId)
+    }
+  }
+  ,[isAdded])
   return (
     <div className="App">
       <Header currentCategoryIndex={currentCategoryIndex} 
