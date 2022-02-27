@@ -67,6 +67,7 @@ function App() {
     })
     .then(res => res.json())
     .then(deletedJoke => {
+      console.log(deletedJoke)
         const newArray = jokes.filter(joke => joke.id !== id)
         setJokes(newArray)
         setUpdate(true)
@@ -93,10 +94,10 @@ function App() {
               changeCategory={changeCategory}/>
       <Switch>
         <Route exact path='/addjoke'>
-            <NewJokeForm addNewJoke={addNewJoke}/>
+            <NewJokeForm addNewJoke={addNewJoke} isAdded={isAdded}/>
         </Route>
         <Route exac path='/jokes'>
-            <Jokes jokes={jokes} deleteJoke={deleteJoke} isAdded={isAdded}/>
+            <Jokes jokes={jokes} deleteJoke={deleteJoke} />
         </Route>
       </Switch>
     </div>

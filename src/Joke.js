@@ -1,6 +1,6 @@
 import React from "react";
 
-function Joke({ joke, index, deleteJoke, isAdded }) {
+function Joke({ joke, index, deleteJoke }) {
     
     function handleClick() {
         deleteJoke(joke.id)
@@ -12,7 +12,6 @@ function Joke({ joke, index, deleteJoke, isAdded }) {
             <h2>{index+1}. {joke.question}</h2>
             <h2>Answer: {joke.answer}</h2>
             <h2>User: {joke.user.username}</h2>
-            {isAdded ? <h1 style={{visibility: "visible"}}>Done!</h1> : <h1 style={{visibility: "hidden"}}>Done!</h1>}
         </div>
     )
 }
