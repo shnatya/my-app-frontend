@@ -9,7 +9,7 @@ import { Route, Switch } from 'react-router-dom'
 function App() {
   const [jokes, setJokes] = useState([])
   const [arrayOfCategories, setArrayOfCategories] = useState([])
-  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0)
+  const [currentCategoryId, setCurrentCategoryId] = useState(0)
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
   const [update, setUpdate] = useState(true)
@@ -26,18 +26,18 @@ function App() {
   }, [update])
     
   useEffect(() => {
-    if (currentCategoryIndex === 0) {
+    if (currentCategoryId === 0) {
       fetch(baseURL + '/jokes')
       .then(res => res.json())
       .then(data => setJokes(data))
     }
     else {
-      fetch(baseURL + `/jokes/${currentCategoryIndex}`)
+      fetch(baseURL + `/jokes/${currentCategoryId}`)
       .then(res => res.json())
       .then(data => setJokes(data))
     }
   }
-  , [currentCategoryIndex])
+  , [currentCategoryId])
 
   function addNewJoke(joke) {
     fetch(baseURL + "/jokes", {
@@ -74,9 +74,11 @@ function App() {
       })
   }
 
-  function changeCategory(value, index) {
+  function changeCategory(value) {
     setCurrentCategory(value)
-    setCurrentCategoryIndex(index)
+    const category = arrayOfCategories.find(category => category.category_name === value)
+    console.log(category.id)
+    setCurrentCategoryId(category.id)
   }
 //Add Done! message when a new joke added to the db, and then clean this message off the screen in 1 sec
   useEffect(() => {
@@ -88,8 +90,7 @@ function App() {
   ,[isAdded])
   return (
     <div className="App">
-      <Header currentCategoryIndex={currentCategoryIndex} 
-              currentCategory={currentCategory}
+      <Header currentCategory={currentCategory}
               arrayOfCategories={arrayOfCategories}
               changeCategory={changeCategory}/>
       <Switch>

@@ -37,7 +37,7 @@ function NewJokeForm({ addNewJoke, isAdded }) {
                 type="text" value={newJoke.category_name} />
                 <button className="margin button-submit" style={{background: "pink"}} type="submit">Submit</button>
             </form>
-            {isAdded ? <h1 style={{visibility: "visible"}}>Done!</h1> : <h1 style={{visibility: "hidden"}}>Done!</h1>}
+            {isAdded ? <h1 className="top" style={{visibility: "visible"}}>Done!</h1> : <h1 style={{visibility: "hidden"}}>Done!</h1>}
         </div>
     )
 }
