@@ -76,9 +76,12 @@ function App() {
 
   function changeCategory(value) {
     setCurrentCategory(value)
-    const category = arrayOfCategories.find(category => category.category_name === value)
-    console.log(category.id)
-    setCurrentCategoryId(category.id)
+    if (value === "All") {
+      setCurrentCategoryId(0)
+    }else{
+      const category = arrayOfCategories.find(category => category.category_name === value)
+      setCurrentCategoryId(category.id)
+    }
   }
 //Add Done! message when a new joke added to the db, and then clean this message off the screen in 1 sec
   useEffect(() => {
