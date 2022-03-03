@@ -5,7 +5,8 @@ import Header from './Header';
 import Jokes from './Jokes';
 import NewJokeForm from './NewJokeForm';
 import { Route, Switch } from 'react-router-dom'
-
+//Add new category to the frontend arrayOfCategories
+s
 function App() {
   const [jokes, setJokes] = useState([])
   const [jokesToDisplay, setJokesToDisplay] = useState([])
@@ -13,8 +14,6 @@ function App() {
   //const [currentCategoryId, setCurrentCategoryId] = useState(0)
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
-
-  //let jokes_to_display = jokes
 
   useEffect(() => {
       fetch(baseURL + '/categories')
@@ -50,7 +49,14 @@ function App() {
     .then(data => {
       console.log(data)
       setAdded(true)
-     
+      setJokes([...jokes, {
+        question: data.question,
+        answer: data.answer,
+        categories: data.categories,
+        user: data.user,
+        id: data.id,
+        user_id: data.user_id
+      }])
     }))
   }
 
@@ -63,9 +69,10 @@ function App() {
       console.log(deletedJoke)
         const newArray = jokes.filter(joke => joke.id !== id) 
         setJokes(newArray)
+        //setJokesToDisplay(newArray)??
       })
   }
-
+//doesn't work joke.categories[0].id because we can have two categories for one joke
   function changeCategory(value) {
     console.log("value:" + value)
     setCurrentCategory(value)
@@ -73,14 +80,14 @@ function App() {
       setJokesToDisplay(jokes)
     }else{
       const category = arrayOfCategories.find(category => category.category_name === value)
-      let jokes_of_category = []
+      let jokesOfCategory = []
       jokes.map(joke => {
         if(category.id === joke.categories[0].id) {
-          jokes_of_category = [...jokes_of_category, joke]
-          console.log(jokes_of_category)
+          jokesOfCategory = [...jokesOfCategory, joke]
+          console.log(jokesOfCategory)
         }
       })
-      setJokesToDisplay(jokes_of_category)
+      setJokesToDisplay(jokesOfCategory)
     }
   }
 //Add Done! message when a new joke added to the db, and then clean this message off the screen in 1 sec
