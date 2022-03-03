@@ -40,8 +40,8 @@ function Header({currentCategory, arrayOfCategories, changeCategory}) {
                 activeStyle={{ background: "palevioletred"}}>
 
                 <select onChange={handleChange} value={currentCategory}>
-                <option value="All">All</option>
-                    {categoryOptions}
+                    <option value="All">All</option>
+                        {categoryOptions}
                 </select>
 
             </NavLink>
