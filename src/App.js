@@ -21,28 +21,26 @@ function App() {
       .then(data => {
         //console.log(data)
         setJokes(data)
-        //collect array of categories
-        data.forEach(jokeObj => {
-          isCategoryExist(jokeObj)
-        })
+        collectCategories(data)
       })}
         ,[])
 
-  function isCategoryExist(obj) {
-    console.log(arrayOfCategories)
-    debugger
-    obj.categories.forEach(categoryObj => {
-      debugger
-      let result = arrayOfCategories.find(el => el === categoryObj.category_name)
-      debugger
-      if(result === undefined) {
-        debugger
-        const newArray = [...arrayOfCategories, categoryObj.category_name]
-        debugger
-        setArrayOfCategories(newArray)
-        //console.log(arrayOfCategories)
+  function collectCategories(data) {
+    let newArray = []
+
+    data.forEach(jokeObj => {
+      jokeObj.categories.map(categoryObj => {
+        let result = newArray.find(el => el === categoryObj.category_name)
+        if(result === undefined) {
+          newArray = [...newArray, categoryObj.category_name]
       }
     })
+    })
+    setArrayOfCategories(newArray)
+  }
+
+  function isCategoryExist(obj) {
+    
   }
 
   function addNewJoke(joke) {
@@ -67,6 +65,7 @@ function App() {
       console.log(data)
       setAdded(true)
       
+      addNewCategory(data.categories)
 
       setJokes([...jokes, {
         question: data.question,
@@ -78,6 +77,30 @@ function App() {
       }])
     }))
   }
+
+  function addNewCategory(categories) {
+    let newArray = [...arrayOfCategories]
+    categories.map(obj => {
+      debugger
+      let result = arrayOfCategories.find(el => el === obj.category_name)
+      if(result === undefined) {
+        debugger
+        newArray = [...newArray, obj.category_name]
+        debugger
+      }
+    })
+    setArrayOfCategories(newArray)
+  }
+
+  /* why i need to collect an array and pass it to set function????
+  function addNewCategory(categories) {
+    categories.map(obj => {
+      let result = arrayOfCategories.find(el => el === obj.category_name)
+      if(result === undefined) {
+        setArrayOfCategories([...arrayOfCategories, obj.category_name])
+      }
+    })
+  }*/
 
   function deleteJoke(id) {
     fetch(baseURL + `/jokes/${id}`,{
