@@ -17,9 +17,9 @@ function Header({currentCategory, arrayOfCategories, changeCategory}) {
         changeCategory(event.target.value)
     }
 
-    let categoryOptions = arrayOfCategories.map(c => {
+    let categoryOptions = arrayOfCategories.map(category => {
         return (
-            <option key={c.id} value={c.category_name}>{c.category_name}</option>
+            <option key={category} value={category}>{category}</option>
         )
     })
     

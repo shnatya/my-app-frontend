@@ -6,28 +6,44 @@ import Jokes from './Jokes';
 import NewJokeForm from './NewJokeForm';
 import { Route, Switch } from 'react-router-dom'
 //Add new category to the frontend arrayOfCategories
-s
+
 function App() {
   const [jokes, setJokes] = useState([])
   const [jokesToDisplay, setJokesToDisplay] = useState([])
   const [arrayOfCategories, setArrayOfCategories] = useState([])
-  //const [currentCategoryId, setCurrentCategoryId] = useState(0)
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
-
-  useEffect(() => {
-      fetch(baseURL + '/categories')
-      .then(res => res.json())
-      .then(data => setArrayOfCategories(data))}
-      ,[])
+//collect array of categories from jokes
     
   useEffect(() => {
       fetch(baseURL + '/jokes')
       .then(res => res.json())
       .then(data => {
-        console.log(data)
-        setJokes(data)})}
+        //console.log(data)
+        setJokes(data)
+        //collect array of categories
+        data.forEach(jokeObj => {
+          isCategoryExist(jokeObj)
+        })
+      })}
         ,[])
+
+  function isCategoryExist(obj) {
+    console.log(arrayOfCategories)
+    debugger
+    obj.categories.forEach(categoryObj => {
+      debugger
+      let result = arrayOfCategories.find(el => el === categoryObj.category_name)
+      debugger
+      if(result === undefined) {
+        debugger
+        const newArray = [...arrayOfCategories, categoryObj.category_name]
+        debugger
+        setArrayOfCategories(newArray)
+        //console.log(arrayOfCategories)
+      }
+    })
+  }
 
   function addNewJoke(joke) {
     fetch(baseURL + "/jokes", {
@@ -47,8 +63,11 @@ function App() {
     })
     .then(res => res.json()
     .then(data => {
+      console.log("Add new joke:")
       console.log(data)
       setAdded(true)
+      
+
       setJokes([...jokes, {
         question: data.question,
         answer: data.answer,
@@ -72,20 +91,22 @@ function App() {
         //setJokesToDisplay(newArray)??
       })
   }
-//doesn't work joke.categories[0].id because we can have two categories for one joke
+
   function changeCategory(value) {
-    console.log("value:" + value)
+    //console.log("value:" + value)
     setCurrentCategory(value)
     if (value === "All") {
       setJokesToDisplay(jokes)
     }else{
-      const category = arrayOfCategories.find(category => category.category_name === value)
       let jokesOfCategory = []
       jokes.map(joke => {
-        if(category.id === joke.categories[0].id) {
-          jokesOfCategory = [...jokesOfCategory, joke]
-          console.log(jokesOfCategory)
-        }
+        joke.categories.map(categoryObj => {
+          if(value === categoryObj.category_name) {
+            //console.log(categoryObj.category_name)
+            jokesOfCategory = [...jokesOfCategory, joke]
+            //console.log(jokesOfCategory)
+          }
+        })
       })
       setJokesToDisplay(jokesOfCategory)
     }
