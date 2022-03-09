@@ -81,12 +81,9 @@ function App() {
   function addNewCategory(categories) {
     let newArray = [...arrayOfCategories]
     categories.map(obj => {
-      debugger
       let result = arrayOfCategories.find(el => el === obj.category_name)
       if(result === undefined) {
-        debugger
         newArray = [...newArray, obj.category_name]
-        debugger
       }
     })
     setArrayOfCategories(newArray)
@@ -108,15 +105,25 @@ function App() {
     })
     .then(res => res.json())
     .then(deletedJoke => {
+      console.log("deletedJoke:")
       console.log(deletedJoke)
         const newArray = jokes.filter(joke => joke.id !== id) 
         setJokes(newArray)
-        //setJokesToDisplay(newArray)??
+        setJokesToDisplay(newArray)
+        deleteCategories(deletedJoke)
       })
   }
 
+  function deleteCategories(arrayOfDeletedObjects) {
+    let newArray = [...arrayOfCategories]
+    if(arrayOfDeletedObjects.length > 1) {
+      for(let i=1; i < arrayOfDeletedObjects.length; i++) {
+        newArray = newArray.filter(category => category !== arrayOfDeletedObjects[i])
+      }}
+    setArrayOfCategories(newArray)
+  }
+
   function changeCategory(value) {
-    //console.log("value:" + value)
     setCurrentCategory(value)
     if (value === "All") {
       setJokesToDisplay(jokes)
@@ -125,9 +132,7 @@ function App() {
       jokes.map(joke => {
         joke.categories.map(categoryObj => {
           if(value === categoryObj.category_name) {
-            //console.log(categoryObj.category_name)
             jokesOfCategory = [...jokesOfCategory, joke]
-            //console.log(jokesOfCategory)
           }
         })
       })
