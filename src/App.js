@@ -77,16 +77,17 @@ function App() {
       setAdded(true)
       
       addNewCategory(data.categories)
-
-      setJokes([...jokes, {
+      setJokes(jokes => {
+        return [...jokes, {      //no changes in jokes right away??? 
         question: data.question,
         answer: data.answer,
         categories: data.categories,
         user: data.user,
         id: data.id,
         user_id: data.user_id
-      }])
-      changeCategory("All") //not working 
+      }]})
+      setCurrentCategory("All") //category changes right away
+      setJokesToDisplay(jokes) 
       history.push('/jokes')
     }))
   }
