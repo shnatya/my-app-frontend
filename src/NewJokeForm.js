@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function NewJokeForm({ addNewJoke, isAdded }) {
+    
     const [newJoke, setNewJoke] = useState({
         question: "",
         answer: "",
@@ -33,7 +34,7 @@ function NewJokeForm({ addNewJoke, isAdded }) {
                 type="text" value={newJoke.answer} autoComplete="off" />
                 <input className="margin input-joke" onChange={handleChange} name="username" placeholder="Type in your username"
                 type="text" value={newJoke.username} />
-                <input className="margin input-joke" onChange={handleChange} name="category_name" placeholder="Type in category(-ies)"
+                <input className="margin input-joke" onChange={handleChange} name="category_name" placeholder="Type in coma seperated category(-ies)"
                 type="text" value={newJoke.category_name} />
                 <button className="margin button-submit" style={{background: "pink"}} type="submit">Submit</button>
             </form>

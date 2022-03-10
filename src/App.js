@@ -4,8 +4,7 @@ import { baseURL } from './Globals'
 import Header from './Header';
 import Jokes from './Jokes';
 import NewJokeForm from './NewJokeForm';
-import { Route, Switch } from 'react-router-dom'
-//Add new category to the frontend arrayOfCategories
+import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
   const [jokes, setJokes] = useState([])
@@ -13,7 +12,7 @@ function App() {
   const [arrayOfCategories, setArrayOfCategories] = useState([])
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
-//collect array of categories from jokes
+  const history = useHistory()
     
   useEffect(() => {
       fetch(baseURL + '/jokes')
@@ -30,17 +29,31 @@ function App() {
 
     data.forEach(jokeObj => {
       jokeObj.categories.map(categoryObj => {
+        /*
         let result = newArray.find(el => el === categoryObj.category_name)
         if(result === undefined) {
           newArray = [...newArray, categoryObj.category_name]
-      }
+        }
+        */
+       newArray = isCategoryExist(categoryObj, newArray)
     })
     })
     setArrayOfCategories(newArray)
   }
+  function addNewCategory(categories) {
+    let newArray = [...arrayOfCategories]
+    categories.map(obj => {
+      newArray = isCategoryExist(obj, newArray)
+    })
+    setArrayOfCategories(newArray)
+  }
 
-  function isCategoryExist(obj) {
-    
+  function isCategoryExist(obj, arr) {
+    let result = arr.find(el => el === obj.category_name)
+    if (result === undefined) {
+      arr = [...arr, obj.category_name]
+    }
+    return arr
   }
 
   function addNewJoke(joke) {
@@ -61,8 +74,6 @@ function App() {
     })
     .then(res => res.json()
     .then(data => {
-      console.log("Add new joke:")
-      console.log(data)
       setAdded(true)
       
       addNewCategory(data.categories)
@@ -75,19 +86,11 @@ function App() {
         id: data.id,
         user_id: data.user_id
       }])
+      changeCategory("All") //not working 
+      history.push('/jokes')
     }))
   }
-
-  function addNewCategory(categories) {
-    let newArray = [...arrayOfCategories]
-    categories.map(obj => {
-      let result = arrayOfCategories.find(el => el === obj.category_name)
-      if(result === undefined) {
-        newArray = [...newArray, obj.category_name]
-      }
-    })
-    setArrayOfCategories(newArray)
-  }
+ 
 
   /* why i need to collect an array and pass it to set function????
   function addNewCategory(categories) {

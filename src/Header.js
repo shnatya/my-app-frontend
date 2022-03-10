@@ -32,19 +32,21 @@ function Header({currentCategory, arrayOfCategories, changeCategory}) {
                 activeStyle={{ background: "palevioletred"}}>
                     Add a joke
             </NavLink>
-            <label>Show jokes</label>
-            <NavLink
-                to="/jokes"
-                exact
-                style={linkStyles}
-                activeStyle={{ background: "palevioletred"}}>
+            <div>
+                <label>Show jokes</label><br />
+                <NavLink
+                    to="/jokes"
+                    exact
+                    style={linkStyles}
+                    activeStyle={{ background: "palevioletred"}}>
 
-                <select onChange={handleChange} value={currentCategory}>
-                    <option value="All">All</option>
-                        {categoryOptions}
-                </select>
+                    <select onChange={handleChange} value={currentCategory}>
+                        <option value="All">All</option>
+                            {categoryOptions}
+                    </select>
 
-            </NavLink>
+                </NavLink>
+            </div>
             
         </div>
       );
