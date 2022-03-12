@@ -7,7 +7,11 @@ import NewJokeForm from './NewJokeForm';
 import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
-  const [jokes, setJokes] = useState([])
+  const [jokes, setJokes] = useState([{
+    question: "",
+    answer: "",
+    user: ""
+  }])
   const [jokesToDisplay, setJokesToDisplay] = useState([])
   const [arrayOfCategories, setArrayOfCategories] = useState([])
   const [currentCategory, setCurrentCategory] = useState("All")
@@ -18,8 +22,9 @@ function App() {
       fetch(baseURL + '/jokes')
       .then(res => res.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         setJokes(data)
+        setJokesToDisplay(data)
         collectCategories(data)
       })}
         ,[])
@@ -29,13 +34,7 @@ function App() {
 
     data.forEach(jokeObj => {
       jokeObj.categories.map(categoryObj => {
-        /*
-        let result = newArray.find(el => el === categoryObj.category_name)
-        if(result === undefined) {
-          newArray = [...newArray, categoryObj.category_name]
-        }
-        */
-       newArray = isCategoryExist(categoryObj, newArray)
+      newArray = isCategoryExist(categoryObj, newArray)
     })
     })
     setArrayOfCategories(newArray)
@@ -75,8 +74,8 @@ function App() {
     .then(res => res.json()
     .then(data => {
       setAdded(true)
-      
       addNewCategory(data.categories)
+
       setJokes(jokes => {
         return [...jokes, {      //no changes in jokes right away??? 
         question: data.question,
