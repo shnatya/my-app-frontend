@@ -66,23 +66,11 @@ function App() {
     .then(res => res.json()
     .then(data => {
       setAdded(true)
-      updateCategoriesArray(data.categories)
-      console.log(data)
-      if(data) {
-        setJokes([...jokes, {      //no changes in jokes right away??? 
-          question: data.question,
-          answer: data.answer,
-          categories: data.categories,
-          user: data.user,
-          id: data.id,
-          user_id: data.user_id
-        }])
-      }
-      console.log("Add new joke:")
-      console.log(jokes)
-
+      updateCategoriesArray(data.categories)      
+      setJokes([...jokes, data])
+    
       setCurrentCategory("All") //category changes right away
-      setJokesToDisplay(jokes) //Uncaught ReferenceError: jokesToDisplay is not defined???
+      setJokesToDisplay([...jokes, data])
       history.push('/jokes')
     }))
   }
