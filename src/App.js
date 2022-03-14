@@ -22,35 +22,24 @@ function App() {
         console.log(data)
         setJokes(data)
         setJokesToDisplay(data)
-        //collectCategories(data)
+        //collectCategories(data) //have it seperately, didn't like it???
 
         let newArray = []
 
         data.forEach(jokeObj => {
-          jokeObj.categories.map(categoryObj => newArray = isCategoryExist(categoryObj, newArray))
+          jokeObj.categories.forEach(categoryObj => newArray = addNewCategory(categoryObj, newArray))
         })
         setArrayOfCategories(newArray)
       })}
-        ,[])
+      ,[])
 
-  /*function collectCategories(data) {
-    let newArray = []
-
-    data.forEach(jokeObj => {
-      jokeObj.categories.map(categoryObj => {
-      newArray = isCategoryExist(categoryObj, newArray)
-    })
-    })
-    setArrayOfCategories(newArray)
-  }*/
-
-  function addNewCategory(categories) {
+  function updateCategoriesArray(categories) {
     let newArray = [...arrayOfCategories]
-    categories.map(obj => newArray = isCategoryExist(obj, newArray))
+    categories.map(obj => newArray = addNewCategory(obj, newArray))
     setArrayOfCategories(newArray)
   }
 
-  function isCategoryExist(obj, arr) {
+  function addNewCategory(obj, arr) {
     let result = arr.find(el => el === obj.category_name)
     if (result === undefined) {
       arr = [...arr, obj.category_name]
@@ -77,7 +66,7 @@ function App() {
     .then(res => res.json()
     .then(data => {
       setAdded(true)
-      addNewCategory(data.categories)
+      updateCategoriesArray(data.categories)
       console.log(data)
       if(data) {
         setJokes([...jokes, {      //no changes in jokes right away??? 
