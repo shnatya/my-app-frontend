@@ -18,14 +18,22 @@ function App() {
       fetch(baseURL + '/jokes')
       .then(res => res.json())
       .then(data => {
+        console.log("I FETCH!!!!!")
         console.log(data)
         setJokes(data)
         setJokesToDisplay(data)
-        collectCategories(data)
+        //collectCategories(data)
+
+        let newArray = []
+
+        data.forEach(jokeObj => {
+          jokeObj.categories.map(categoryObj => newArray = isCategoryExist(categoryObj, newArray))
+        })
+        setArrayOfCategories(newArray)
       })}
         ,[])
 
-  function collectCategories(data) {
+  /*function collectCategories(data) {
     let newArray = []
 
     data.forEach(jokeObj => {
@@ -34,12 +42,11 @@ function App() {
     })
     })
     setArrayOfCategories(newArray)
-  }
+  }*/
+
   function addNewCategory(categories) {
     let newArray = [...arrayOfCategories]
-    categories.map(obj => {
-      newArray = isCategoryExist(obj, newArray)
-    })
+    categories.map(obj => newArray = isCategoryExist(obj, newArray))
     setArrayOfCategories(newArray)
   }
 
@@ -71,28 +78,25 @@ function App() {
     .then(data => {
       setAdded(true)
       addNewCategory(data.categories)
-      let newJokes = [...jokes, data]
-      setJokes(newJokes)
-      
-      setCurrentCategory("All") //category changes right away
-      
-      setJokesToDisplay(jokes) //Uncaught ReferenceError: jokesToDisplay is not defined???
-      
-    })
-    .then(() => history.push('/jokes'))
-    )
-  }
- 
-
-  /* why i need to collect an array and pass it to set function????
-  function addNewCategory(categories) {
-    categories.map(obj => {
-      let result = arrayOfCategories.find(el => el === obj.category_name)
-      if(result === undefined) {
-        setArrayOfCategories([...arrayOfCategories, obj.category_name])
+      console.log(data)
+      if(data) {
+        setJokes([...jokes, {      //no changes in jokes right away??? 
+          question: data.question,
+          answer: data.answer,
+          categories: data.categories,
+          user: data.user,
+          id: data.id,
+          user_id: data.user_id
+        }])
       }
-    })
-  }*/
+      console.log("Add new joke:")
+      console.log(jokes)
+
+      setCurrentCategory("All") //category changes right away
+      setJokesToDisplay(jokes) //Uncaught ReferenceError: jokesToDisplay is not defined???
+      history.push('/jokes')
+    }))
+  }
 
   function deleteJoke(id) {
     fetch(baseURL + `/jokes/${id}`,{
@@ -125,16 +129,13 @@ function App() {
       setJokesToDisplay(jokes)
     }else{
       let jokesOfCategory = []
-      jokes.map(joke => {
-        joke.categories.map(categoryObj => {
-          if(value === categoryObj.category_name) {
-            jokesOfCategory = [...jokesOfCategory, joke]
-          }
-        })
+       jokesOfCategory = jokes.filter(joke => {
+           return joke.categories.find(categoryObj => value === categoryObj.category_name)
       })
       setJokesToDisplay(jokesOfCategory)
     }
   }
+
 //Add Done! message when a new joke added to the db, and then clean this message off the screen in 1 sec
   useEffect(() => {
     const timerId = setTimeout(() => setAdded(false), 1000)
