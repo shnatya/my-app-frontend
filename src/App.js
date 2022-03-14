@@ -7,11 +7,7 @@ import NewJokeForm from './NewJokeForm';
 import { Route, Switch, useHistory } from 'react-router-dom'
 
 function App() {
-  const [jokes, setJokes] = useState([{
-    question: "",
-    answer: "",
-    user: ""
-  }])
+  const [jokes, setJokes] = useState([])
   const [jokesToDisplay, setJokesToDisplay] = useState([])
   const [arrayOfCategories, setArrayOfCategories] = useState([])
   const [currentCategory, setCurrentCategory] = useState("All")
@@ -75,20 +71,16 @@ function App() {
     .then(data => {
       setAdded(true)
       addNewCategory(data.categories)
-
-      setJokes(jokes => {
-        return [...jokes, {      //no changes in jokes right away??? 
-        question: data.question,
-        answer: data.answer,
-        categories: data.categories,
-        user: data.user,
-        id: data.id,
-        user_id: data.user_id
-      }]})
+      let newJokes = [...jokes, data]
+      setJokes(newJokes)
+      
       setCurrentCategory("All") //category changes right away
-      setJokesToDisplay(jokes) 
-      history.push('/jokes')
-    }))
+      
+      setJokesToDisplay(jokes) //Uncaught ReferenceError: jokesToDisplay is not defined???
+      
+    })
+    .then(() => history.push('/jokes'))
+    )
   }
  
 
@@ -113,6 +105,7 @@ function App() {
         const newArray = jokes.filter(joke => joke.id !== id) 
         setJokes(newArray)
         setJokesToDisplay(newArray)
+
         deleteCategories(deletedJoke)
       })
   }
