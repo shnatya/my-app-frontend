@@ -5,6 +5,7 @@ import Header from './Header';
 import Jokes from './Jokes';
 import NewJokeForm from './NewJokeForm';
 import { Route, Switch, useHistory } from 'react-router-dom'
+import ErrorList from './errors/ErrorList';
 
 function App() {
   const [jokes, setJokes] = useState([])
@@ -18,8 +19,6 @@ function App() {
       fetch(baseURL + '/jokes')
       .then(res => res.json())
       .then(data => {
-        console.log("I FETCH!!!!!")
-        console.log(data)
         setJokes(data)
         setJokesToDisplay(data)
         //collectCategories(data) //have it seperately, didn't like it???
@@ -65,6 +64,10 @@ function App() {
     })
     .then(res => res.json()
     .then(data => {
+
+      /*if(data.errors) {
+
+      }*/
       setAdded(true)
       updateCategoriesArray(data.categories)      
       setJokes([...jokes, data])
@@ -81,8 +84,6 @@ function App() {
     })
     .then(res => res.json())
     .then(deletedJoke => {
-      console.log("deletedJoke:")
-      console.log(deletedJoke)
         const newArray = jokes.filter(joke => joke.id !== id) 
         setJokes(newArray)
         setJokesToDisplay(newArray)
@@ -127,6 +128,7 @@ function App() {
       <Header currentCategory={currentCategory}
               arrayOfCategories={arrayOfCategories}
               changeCategory={changeCategory}/>
+      <ErrorList errors={["Oops!", "Nope!"]}/>
       <Switch>
         <Route exact path='/addjoke'>
             <NewJokeForm addNewJoke={addNewJoke} isAdded={isAdded}/>
@@ -140,3 +142,4 @@ function App() {
 
 
 export default App;
+
