@@ -61,5 +61,18 @@ code {
 
 .top{
   padding-top: 100px;
+}
+
+.errors 
+{
+    display: flex;
+    position: relative;
+    padding:20px;
+    left: 180%;
+    text-align: center;
+    font-size: 17px;
+    color: rgb(216, 56, 56);
+    display: table-cell;
+    font-size: 27px;
   
 }

@@ -2,8 +2,7 @@
 
 This project includes two parts - frontend app written in React and backend written using Sinatra and Active Record. In this README.md file, you find the description of the frontend part. 
 
-Backend repository is located [**here**][backend link].
-[backend link]: https://github.com/shnatya/phase-3-sinatra-react-project
+Backend repository is located on https://github.com/shnatya/phase-3-sinatra-react-project
 
 Jokes app allows users to store their jokes, filter jokes by category and delete jokes by fetching requests to Sinatra backend.
 

@@ -14,6 +14,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState("All")
   const [isAdded, setAdded] = useState(false)
   const history = useHistory()
+  const [errors, setErrors] = useState([])
     
   useEffect(() => {
       fetch(baseURL + '/jokes')
@@ -64,18 +65,24 @@ function App() {
     })
     .then(res => res.json()
     .then(data => {
-
-      /*if(data.errors) {
-
-      }*/
-      setAdded(true)
-      updateCategoriesArray(data.categories)      
-      setJokes([...jokes, data])
-    
-      setCurrentCategory("All") //category changes right away
-      setJokesToDisplay([...jokes, data])
-      history.push('/jokes')
+      if(data.errors) {
+        console.log(data.errors)
+        setErrors(data.errors)
+      }else {
+        setAdded(true)
+        updateCategoriesArray(data.categories)      
+        setJokes([...jokes, data])
+      
+        setCurrentCategory("All") 
+        setJokesToDisplay([...jokes, data])
+        history.push('/jokes')
+      }
+      
     }))
+  }
+
+  const clearErrors = () => {
+    setErrors([])
   }
 
   function deleteJoke(id) {
@@ -128,10 +135,10 @@ function App() {
       <Header currentCategory={currentCategory}
               arrayOfCategories={arrayOfCategories}
               changeCategory={changeCategory}/>
-      <ErrorList errors={["Oops!", "Nope!"]}/>
+      <ErrorList errors={errors}/>
       <Switch>
         <Route exact path='/addjoke'>
-            <NewJokeForm addNewJoke={addNewJoke} isAdded={isAdded}/>
+            <NewJokeForm addNewJoke={addNewJoke} isAdded={isAdded} clearErrors={clearErrors}/>
         </Route>
         <Route exac path='/jokes'>
             <Jokes jokes={jokesToDisplay} deleteJoke={deleteJoke} />

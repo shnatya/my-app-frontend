@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function NewJokeForm({ addNewJoke, isAdded }) {
+function NewJokeForm({ addNewJoke, isAdded, clearErrors }) {
     
     const [newJoke, setNewJoke] = useState({
         question: "",
         answer: "",
         username: "",
         category_name: ""})
+    
+    useEffect(() => {
+        return () => clearErrors() 
+    }, [])
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -20,6 +24,7 @@ function NewJokeForm({ addNewJoke, isAdded }) {
     }
 
     function handleChange(event) {
+        clearErrors()
         setNewJoke({
             ...newJoke,
             [event.target.name]: event.target.value})
@@ -42,7 +47,5 @@ function NewJokeForm({ addNewJoke, isAdded }) {
         </div>
     )
 }
-
-
 
 export default NewJokeForm
